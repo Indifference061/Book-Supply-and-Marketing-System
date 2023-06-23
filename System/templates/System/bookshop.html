@@ -1,0 +1,58 @@
+{% extends "System/base.html" %}
+
+
+{% block content %}
+
+<div class="container p-4 offset-6-lg">
+    <form name="search" class="form-inline mt-2 mt-md-0" action="{% url 'System:bookshop' %}" method="get">
+        {% csrf_token %}
+       <input class="form-control mr-sm-3" type="text" id="ISBN" placeholder="ISBN" name="search_ISBN" value={{ISBN}}>
+       <input class="form-control mr-sm-3" type="text" id="name" placeholder="书名" name="search_name" value={{name}}>
+       <input class="form-control mr-sm-3" type="text" id="author" placeholder="作者" name="search_author" value={{author}}>
+       <input class="form-control mr-sm-3" type="text" id="publisher" placeholder="出版社" name="search_publisher" value={{publisher}}>
+       <input class="btn btn-primary" type="submit" value="搜索">
+    </form>
+</div>
+
+<div class="container-fluid">
+    <table class="table table-hover text-center" >
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>书名</th>
+                <th>出版社</th>
+                <th>作者</th>
+                <th>零售价格</th>
+                <th>库存数量</th>
+                <th>购买</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books_list %}
+            <tr style="vertical-align: middle;">
+                <td>{{ book.ISBN }}</td>
+                <td>{{ book.name}}</td>
+                <td>{{ book.publisher }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.price }}</td>
+                <td>{{ book.amount }}</td>
+                <td>
+                    <form action="{% url 'System:bookshop' %}" method="post">
+                        {% csrf_token %}
+                    <input type="text" name="amount" placeholder="购买数量" style="width: 60px;">
+                    <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
+                    <input type="hidden" name="price" value="{{ book.price }}">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input class="btn btn-primary" type="submit" value="购买" style="width: 120px;"></input>
+                    <br/>
+                    {% if error_msg %}
+                        {{error_msg}}
+                    {% endif %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

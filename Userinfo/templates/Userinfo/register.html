@@ -1,0 +1,30 @@
+{% extends "System/base.html" %}
+
+{% block content %}
+ <div class="wrapper">
+        <div class="header">
+                <div class="form">
+                    <form method="post" action="{% url 'Userinfo:register' %}">
+                    {% csrf_token %}
+                    <div class="input_field">
+                        <input type="text" name="username" placeholder="用户名(不少于1位，不多于20位)" class="input" maxlength=18>
+                    </div>
+                    <div class="input_field">
+                        <input type="password" name="password1" placeholder="密码(不少于5位，不多于20位)" class="input" maxlength=18>
+                    </div>
+                    <div class="input_field">
+                        <input type="password" name="password2" placeholder="确认密码" class="input" maxlength=18>
+                    </div>
+                    {% if msg %}
+                    <p class="warning">{{ msg }}</p>
+                    {% endif %}
+                    {% if error %}
+                    <p class="warning">{{ error }}</p>
+                    {% endif %}
+                    <input type="submit" value="创建 " class="btn btn-primary">
+                    <a href="{% url 'Userinfo:userinfo' user.id %}" class="btn btn-primary">返回</a>
+                    </form>
+                </div>
+        </div>
+    </div>
+{% endblock content %}

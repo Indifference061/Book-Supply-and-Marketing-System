@@ -1,0 +1,71 @@
+{% extends "System/base.html" %}
+{% load bootstrap4 %}   
+{% block content %}
+
+<div class="container p-4 center">
+    <form name="sr" class="form-inline mt-2 mt-md-0" action="{% url 'System:stock' %}" method="get">
+        {% csrf_token %}
+       <input class="form-control mr-sm-2" type="text" id="id" placeholder="搜索书的id" aria-label="Search" name="search_id" >
+       <input class="btn btn-primary" type="submit" value="搜索"></input>
+    </form>
+</div>
+
+{% for book in books_list %}
+   {% empty %}
+   <div class="container p-4 offset-6-lg" style="display:flex">
+    <p>库中暂无,请新建图书</p>
+    <a href="{% url 'System:new_book' %}" class="btn btn-primary" style="margin-left:20px">新建图书</a>
+   </div>
+
+{% endfor %}
+
+
+<div style=" padding: 20px 30px; display: flex; justify-content: space-evenly;">
+     <table  class="table table-hover text-center" >
+         <thead>
+             <tr>
+                 <th>书名</th>
+                 <th>出版社</th>
+                 <th>作者</th>
+                 <th>单价</th>
+                 <th>数量</th>
+                 <th>操作</th>
+             </tr>
+         </thead>
+         <tbody>
+             {% for book in books_list %}
+                 <form action="{% url 'System:stock' %}" method="post" class="form">
+                {% csrf_token %}
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            {{ book.name }}
+                            <input type="hidden" name="book" class="form-control" value="{{ book.id }}">
+                        </div>
+                    </td>
+                    <td>{{ book.publisher }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" name="price" step="0.01" class="form-control" placeholder="单价" style="width: 150px;" >
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" name="amount" class="form-control" placeholder="数量"  style="width: 150px;">
+                        </div>
+                    </td>
+                    <td>
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <input class="btn btn-primary" type="submit" value="进货" style="width: 120px;">
+                    </td>
+                </tr>
+                </form>
+            {% endfor %}
+         </tbody>
+     </table>
+</div>
+
+
+
+{% endblock content %}

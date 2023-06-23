@@ -1,0 +1,62 @@
+{% load bootstrap4 %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>图书销售管理系统</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    {% load static %}
+    <script src="{% static 'jquery.js'%}"></script>
+</head>
+
+<body >
+    <nav class="navbar navbar-expand-md navbar-light border">
+        <ul class="nav__links" style="margin-left: 0px;">
+            <li>
+                <a href="{% url 'System:home' %}" style="color: black;font-family: 宋体;font-size: 40px" >欢迎来到图书管理系统</a>
+            </li>
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"  aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="width:10px;"></span>
+        </button>
+        <div class="collapse navbar-collapse" style="color: #86A4BE;" id="navbarCollapse">
+        <ul class="nav__links ml-auto">
+        {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'System:bookshop' %}" style="text-decoration: none;">书店</a>
+            </li>
+            <li>
+                <a href="{% url 'System:bookstock' %}" style="text-decoration: none;">书库</a>
+            </li>
+            <li>
+                <a href="{% url 'System:stockbills' %}" style="text-decoration: none;">进货</a>
+            </li>
+            <li>
+                <a href="{% url 'System:finance' %}" style="text-decoration: none;">财务</a>
+            </li>
+            <li>
+                {% if user.is_superuser %}
+                <a href="{% url 'Userinfo:userinfo' user.id %}" style="text-decoration: none;">超级管理员 {{ user.username }}</a>
+                {% else %}
+                <a href="{% url 'Userinfo:userinfo' user.id %}" style="text-decoration: none;">普通管理员 {{ user.username }}</a>
+                {% endif %}
+            </li>
+            <li>
+                <a href="{% url 'Userinfo:logout' %}" style="text-decoration: none;">退出登录</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{% url 'Userinfo:login' %}" style="text-decoration: none;">登录</a>
+            </li>
+        {% endif %}
+        </ul>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock content %}
+</body>

@@ -1,0 +1,24 @@
+{% extends "System/base.html" %}
+
+{% block content %}
+        <div class="wrapper">
+            <div class="header">
+                <div class="form">
+                    <form method="post" action="{% url 'Userinfo:login' %}">
+                    {% csrf_token %}
+                    <div class="input_field">
+                        <input type="text" name="username" placeholder="用户名" required autofocus>
+                    </div>
+                    <div class="input_field">
+                        <input type="password" name="password" placeholder="密码" required>
+                    </div>
+                    {% if error_msg %}
+                    <p class="warning">{{ error_msg }}</p>
+                    {% endif %}
+                    <input type="submit" value="登录" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock content %}
+

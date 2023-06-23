@@ -1,0 +1,59 @@
+{% extends "System/base.html" %}
+
+
+{% block content %}
+
+<div class="container p-4 offset-6-lg" style="display:flex;">
+    <form name="sr" class="form-inline mt-2 mt-md-0" action="{% url 'System:finance' %}" method="get">
+        {% csrf_token %}
+       <input class="form-control mr-sm-2" type="date" id="start" placeholder="起始时间" aria-label="Search" name="search_start" value={{search_start}}>
+       <input class="form-control mr-sm-2" type="date" id="end" placeholder="终止时间" aria-label="Search" name="search_end" value={{search_end}}>
+       <input class="btn btn-primary" type="submit" value="搜索"></input>
+    </form>
+</div>
+
+<div class="tab-content">
+    <table class="table table-hover text-center">
+        <thead>
+            <tr>
+                <th scope="col"><span class="lead font-weight-bold">总支出(￥)</span></th>
+                <th scope="col"><span class="lead font-weight-bold">总收入(￥)</span></th>
+                <th scope="col"><span class="lead font-weight-bold">总利润(￥)</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="vertical-align: middle;">
+                <td>{{ outcome }}</td>
+                <td>{{ income }}</td>
+                <td>{{ profit }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-hover text-center">
+        <thead>
+            <tr>
+                <th scope="col"><span >订单号</span></th>
+                <th scope="col"><span >书名</span></th>
+                <th scope="col"><span >时间</span></th>
+                <th scope="col"><span >操作者</span></th>
+                <th scope="col"><span>类型</span></th>
+                <th scope="col"><span >金额</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for finance in finance_list %}
+            <tr style="vertical-align: middle;">
+                <td>{{ finance.bill_id }}</td>
+                <td>{{ finance.bill.book }}</td>
+                <td>{{ finance.date }}</td>
+                <td>{{ finance.user }}</td>
+                <td>{{ finance.type }}</td>
+                <td>{{ finance.income_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
