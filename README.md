@@ -9,7 +9,8 @@
 ## 运行方式
 
 - clone后在pycharm中打开，在Book_Manage_System文件夹下的settings.py中根据本人数据库更改属性
-  ```DATABASES = {
+  ```
+  DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Books_Manage',
@@ -18,10 +19,15 @@
         'HOST' : 'localhost',
         'PORT': '5432',
     }
-}```
+  }
+  
 - 在终端中输入以下代码，创建超级管理员，并根据提示词输入对应的用户名与密码
 
-```python manage.py createsuperuser```
+  ```
+  python manage.py createsuperuser
+  ```
 
 - 运行程序，打开网页
-  ```python manage.py runserver```
+  ```
+  python manage.py runserver
+  ```
